@@ -1,9 +1,11 @@
+<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="./css/main.css">
+  <title>Quotes App</title>
 </head>
 <body>
   <h1>This is a html file being served by Node/Express</h1>
@@ -14,6 +16,13 @@
     <input type="text" placeholder="quote" name="quote">
     <button type="submit">Submit</button>
   </form>
+
+  <% for (let i = 0; i < quotes.length; i++) {%>
+    <li class="quote">
+      <span><%= quotes[i].name %></span>:
+      <span><%= quotes[i].quote %></span>
+    </li>
+  <% } %>
 
 </body>
 </html>
