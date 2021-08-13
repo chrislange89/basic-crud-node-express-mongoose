@@ -4,25 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="./css/main.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <script src="https://kit.fontawesome.com/da4800ee3c.js" crossorigin="anonymous"></script>
   <title>Quotes App</title>
 </head>
 <body>
   <h1>This is a html file being served by Node/Express</h1>
   <p>Trying to understand how to serve a CRUD app</p>
 
-  <form action="/quotes" method="post">
+  <form id="newQuotes" action="/quotes" method="post">
     <input type="text" placeholder="name" name="name">
     <input type="text" placeholder="quote" name="quote">
     <button type="submit">Submit</button>
   </form>
 
-  <% for (let i = 0; i < quotes.length; i++) {%>
-    <li class="quote">
-      <span><%= quotes[i].name %></span>:
-      <span><%= quotes[i].quote %></span>
-    </li>
-  <% } %>
-
+  <ul>
+    <% for (let i = 0; i < quotes.length; i++) {%>
+      <li class="quote">
+        <a href="" class="fas fa-trash"></a>
+        <span><%= quotes[i].name %></span>:
+        <span><%= quotes[i].quote %></span>
+      </li>
+    <% } %>
+  </ul>
 </body>
 </html>

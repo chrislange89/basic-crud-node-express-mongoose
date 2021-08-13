@@ -6,6 +6,9 @@
 
 html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bold;
   font-size: 16px;
+}
+
+li {
+  list-style: none;
 }

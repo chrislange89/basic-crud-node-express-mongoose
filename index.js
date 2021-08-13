@@ -1,46 +1,31 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoClient = require('mongodb').MongoClient;
+
+const mongoose = require('mongoose');
+const mongooseOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 const mongoURL = process.env['mongoConnectionString'];
-const port = process.env.port || 3000;
+
+const Character = require('./models/Character.js');
 
 const app = express();
 
-mongoClient.connect(mongoURL, { useUnifiedTopology: true })
-  .then(client => {
-    console.log('Connected to Database')
-    const db = client.db('quotes');
-    const quotesCollection = db.collection('quotes');
+mongoose.connect(mongoURL, mongooseOptions);
+const db = mongoose.connection;
 
-    app.set('view engine', 'ejs');
+db.once('open', _ => {
+  console.log(`Database connected: ${mongoURL}`);
+})
 
-    app.use(bodyParser.urlencoded({ extended: true}));
-    app.use(express.static('css'));
+db.on('error', err => {
+  console.error("Connection error: " + err);
+})
 
-    app.get('/', (req, res) => {
-      const cursor = db.collection('quotes').find().toArray()
-      .then(results => {
-        console.log(results);
-        res.render('index.ejs', {quotes: results});
-      })
-      .catch(error => console.error(error));
-      console.log(cursor);
-    });
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(express.static('public'));
 
-    app.post('/quotes', (req, res) => {
-      console.log(req.body);
-      quotesCollection.insertOne(req.body)
-      .then(result => {
-        console.log(result);
-        res.redirect('/');
-      })
-      .catch(error => console.error(error));
-    });
-
-  })
-  .catch(error => console.error(error));
-
-
+const port = process.env.port || 3000;
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
